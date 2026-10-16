@@ -1,135 +1,118 @@
-# LGMFormer 声呐鱼群计数论文复现
+<div align="center">
 
-复现论文：**Wang et al., "Enhancing Fish Counting in Sonar Images With Multitask Learning and Local–Global Feature Interaction", IEEE Sensors Journal, 25(12), 2025.**
-（DOI: 10.1109/JSEN.2025.3562927；官方仓库 `github.com/camerayuhang/LGMFormer` 截至复现时**仍为空**，故本项目为从零复现。）
+# Task · 每周论文复现与阅读
 
-> **一句话结果**：完整方法（MTL + SEDH + DM-Count）测试集 **MAE 5.458**，较基线 6.666 **降低 18.1%**，与论文宣称的 MTL 收益 18.8% 量级吻合 —— 核心命题复现成立。
+**Week 1：LGMFormer 声呐鱼群计数论文复现（2026-10-14 ~ 10-16）**
+
+![Python](https://img.shields.io/badge/Python-3.9-3776AB?logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-1.13.1%2Bcu116-EE4C2C?logo=pytorch&logoColor=white)
+![Reproduction](https://img.shields.io/badge/MAE-5.458%20(%E2%86%9318.1%25)-brightgreen)
+
+</div>
 
 ---
 
-## 1. 结果总览（11 次 300 轮完整实验）
+## 本周一句话结果
 
-| 配置 | 轮数 | val MAE | 测试 MAE | 测试 RMSE | mIoU | vs 基线 |
-|---|---|---|---|---|---|---|
-| Baseline（ResNet18+U-Net 密度回归） | 300 | 5.072 | 6.666 | 10.560 | - | +0.0% |
-| + HLFG（严格 Eq.3 replace） | 300 | 7.668 | 8.225 | 13.015 | - | +23.4% ❌ |
-| + HLFG（cat3 拼接融合，复现采用） | 300 | 6.968 | 6.940 | 10.798 | - | +4.1% |
-| + LGFI | 300 | 7.937 | 8.224 | 13.955 | - | +23.4% ❌ |
-| + 分割头（MTL） | 300 | 8.432 | 9.947 | 15.250 | 0.892 | +49.2% |
-| **完整方案（MTL+SEDH+DM-Count）** | 300 | **4.442** | **5.458** | **10.287** | 0.285 | **-18.1% ★** |
-| + 通用数据增强（已证伪） | 300 | 24.015 | 32.182 | 62.568 | 0.293 | +382.8% ❌ |
-| Transformer 解码器 纯密度 | 300 | 6.326 | 7.081 | 11.394 | - | +6.2% |
-| Transformer 解码器 完整(scale=100) | 300 | 3.708 | 5.845 | 13.171 | 0.326 | -12.3% |
-| Transformer 解码器 完整(scale=1) | 300 | 5.997 | 8.131 | 19.067 | 0.614 | +22.0% |
+复现 LGMFormer（IEEE Sensors J. 2025，声呐鱼群计数）核心方法：
+**MTL + SEDH + DM-Count 测试集 MAE 5.458，较基线 6.666 降低 18.1%**，
+与论文宣称的 MTL 收益 18.8% 量级吻合 —— 核心命题复现成立。
+（论文官方仓库为空，全部模块按公式 Eq.1–17 与 Fig.2–5 从零实现）
 
-论文参考：完整模型 MAE 3.22 / RMSE 6.05 / mIoU 90.2%。
+## 本周目录：[Week1_LGMFormer/](Week1_LGMFormer/)
 
-**收敛曲线对比**（完整方案红线全程最低）：
+| 文件 | 说明 |
+|---|---|
+| `src/` + `train.py` 等脚本 | 核心代码（模型 / 损失 / 数据 / 训练 / 验收 / 汇总） |
+| `requirements.txt` | 依赖库 |
+| `result_loss.png` | 结果截图：11 次实验收敛曲线对比 |
+| `result_vis.png` | 结果截图：真值 vs 预测密度图 |
+| `result_seg.png` / `result_baseline.png` | 结果截图：分割标签自检 / 基线失效模式 |
+| `docs/` | 复现报告、验收报告、结果查看指南、汇报 PPT |
+| `runs/` | 全部实验的训练日志与指标（权重未入库，可按步骤复现） |
 
-![训练曲线](docs/images/training_curves.png)
+---
 
-## 2. 预测可视化：模型确实在"数鱼"
+## 流程步骤
 
-按真值条数从少到多抽样（Input / 真值密度图 / 预测密度图）：
+**1. 数据准备**：下载 ARIS 数据集（500 张 320×576 声呐图，train/val/test = 350/70/80）；
+按论文 Fig.5 用 Otsu 阈值法自动生成三类分割标签（fish / noise / background），
+密度图 Otsu 等效阈值与论文固定值 0.001 的逐帧一致率 **99.4%**。
 
-![预测对比](docs/images/verify_pred_vis.png)
+**2. 搭基线**：ResNet18 编码器 + U-Net 解码器回归密度图，对密度图求和得到计数。
+300 轮训练 → 测试 MAE 6.666。
 
-- 大群鱼：GT 438 → 预测 463.8（误差 5.9%）
-- 空背景：GT 0 → 预测 0.3，几乎无虚警
-- 稀疏场景略高估（GT 9 → 15.4），是当前已知短板
+**3. 逐个复现论文模块**（对应消融表）：
+- **HLFG**（Eq.1–3）：高层特征生成通道注意力引导低层融合
+- **LGFI**（Eq.4–6）：窗口注意力 + 十字卷积 + 多尺度空洞卷积
+- **MTL**（Eq.8）：三类分割分支，CE + Dice 辅助监督
+- **SEDH**（Eq.9–11）：用分割概率图增强鱼区、抑制噪声，精修密度图
+- **DM-Count**：L_Count + L_TV + L_OT 分布匹配损失
 
-基线模型的典型失效模式（论文引入分割分支的动机所在）：
+**4. 完整方案训练**（MTL + SEDH + DM-Count）→ 测试 **MAE 5.458（↓18.1%）**
 
-![基线失效模式](docs/images/pred_baseline.png)
+**5. 端到端验收**：重载权重重跑 val/test，四项指标与训练记录**零偏差**复现；
+可视化确认模型确实在数鱼（大群 GT 438 → 预测 463.8，误差 5.9%）。
 
-## 3. 数据侧：Otsu 自动生成三类分割标签（论文 Fig.5）
-
-```
-伪彩图 → 亮度灰度 → Otsu ─────────────→ I_mask（前景回波）
-密度图 → 阈值 θdm = 0.001 ───────────→ D_mask（鱼所在区域）
-        I_mask 连通域与 D_mask 相交 → fish，不相交 → noise
-        → Dilation 3×3 → GaussianBlur → 再次 Otsu → 最终 S_mask
-```
-
-- 500 张图像（train 350 / val 70 / test 80），标签全量生成
-- 密度图 Otsu 等效阈值与论文固定值 0.001 的逐帧一致率 **99.4%**
-
-![分割标签自检](docs/images/seg_check.png)
-
-## 4. 复现环境
-
-- Python 3.9 / PyTorch 1.13.1 + cu116 / OpenCV 4.10（见 `requirements.txt`）
-- GPU：RTX 3050 Laptop 4GB（论文用 RTX 3060）
-- 数据：ARIS 数据集（Zenodo record 4751942），500 张 320×576 声呐图 + 高斯密度图
-
-## 5. 复现步骤（全套流程）
+关键命令（在 `Week1_LGMFormer/` 内执行）：
 
 ```bash
-# 0) 冒烟测试（验证环境）
-python train.py --limit 24 --epochs 1 --val-every 1 --out runs/smoke
-
-# 1) 训练基线（~35 分钟 / 300 轮）
-python train.py --epochs 300 --val-every 10 --batch 12 --accum 3 --out runs/baseline
-
-# 2) 训练论文核心方案（MTL + SEDH + DM-Count）
-python train.py --epochs 300 --loss dmcount --seg --sedh --out runs/mtl_sedh_dm
-
-# 3) 汇总全部实验对照表
-python compare_runs.py
-
-# 4) 端到端验收（数据→权重→评测→可视化，四阶段体检）
-python verify_pipeline.py --run mtl_sedh_dm
-
-# 5) 单独评测 + 密度图可视化
+python train.py --epochs 300 --loss dmcount --seg --sedh --out runs/mtl_sedh_dm  # 核心方案
+python compare_runs.py                       # 汇总 11 次实验对照表
+python verify_pipeline.py --run mtl_sedh_dm  # 端到端验收
 python predict.py --ckpt runs/mtl_sedh_dm/best.pth --split test --out pred_check.png
 ```
 
-模块开关（对应论文消融表）：`--hlfg --hlfg-mode cat3` / `--lgfi` / `--seg` / `--sedh` 任意组合。
+## 结果截图
 
-**验收结果**：重载权重后 val/test 指标与训练记录**零偏差**复现（详见 [全流程验收报告](全流程验收报告.md)）。
+**11 次实验收敛曲线**（完整方案红线全程最低；完整对照表见 [Week1_LGMFormer/docs/复现报告.md](Week1_LGMFormer/docs/复现报告.md)）：
 
-## 6. 复现中踩到的三个数值坑
+![result_loss](Week1_LGMFormer/result_loss.png)
 
-这三个问题会让模型**完全不收敛**（MAE 停在"预测 0"），且症状隐蔽：
+**真值 vs 预测密度图**（Input / GT / Pred，按鱼数从少到多抽样）：
 
-1. **初始尺度差 731 倍**：ARIS 密度图均值仅 1.6e-4，随机初始化输出 O(0.1)。解决：softplus 头 + 偏置按密度均值反解。
-2. **ReLU 零点梯度死锁**：末层零初始化时预激活恰为 0，`relu'(0)=0`，连 bias 梯度都为 0。解决：改用处处可导的 softplus。
-3. **Adam eps 停摆**：对均值 1.6e-4 的目标做 MSE，梯度 ~1e-8 低于 Adam eps。解决：目标乘缩放系数（`--density-scale 100`）。
+![result_vis](Week1_LGMFormer/result_vis.png)
 
-另外两处关键排障：
+**基线失效模式**（噪声被计入鱼数 —— 这正是论文引入分割分支的动机）：
 
-- **HLFG Eq.3 直接融合破坏跳连**（MAE 6.67→8.23），改用拼接式融合（cat3）后恢复；
-- **SEDH 类别索引与标签约定相反**（原实现取背景/鱼概率颠倒），修正后才得到 5.458 的结果。
+![result_baseline](Week1_LGMFormer/result_baseline.png)
 
-## 7. 与论文的差距（诚实归因）
+**Otsu 三类分割标签自检**（论文 Fig.5 流程）：
 
-复现 MAE 5.458 vs 论文 3.22，差距已定位为三个缺口：
+![result_seg](Week1_LGMFormer/result_seg.png)
 
-1. **多任务 Pareto 权衡**：MAE 最优（ep80）与 mIoU 最优（ep230+）不同阶段，论文未公布权衡策略；
-2. **泛化 gap**：Transformer 完整方案 val MAE 3.708 已接近论文 3.22，但 test 掉到 5.845（过拟合方向，通用数据增强已实验证伪）；
-3. **官方超参缺失**：仓库为空，decoder 通道/层数/损失权重无对照依据。
+## 论文想法
 
-详细分析见 [复现报告](复现报告_LGMFormer.md)。
+1. **技术谱系**：这篇论文的技术大半来自人群计数 —— 密度图回归范式来自 CSRNet（CVPR 2018），
+   DM-Count 损失来自人群计数（NeurIPS 2020），LGMFormer 的贡献是把这些搬进声呐场景
+   并加上"分割辅助计数"。详见[技术谱系笔记](papers/2026-10-15_技术谱系_人群计数到鱼群计数.md)。
+2. **实验新发现**：单独加分割头计数反而变差（9.95），配上 SEDH 后才降到 5.458 ——
+   "分割 + 概率精修"这个组合才是论文真正的贡献点，不是单个模块。
+3. **声呐 ≠ 光学**：声呐回波强度是物理量，通用数据增强（亮度抖动、随机擦除）会灾难性破坏任务
+   （MAE 32.18，已实验证伪）—— 这是与人群计数迁移时最需要注意的差异。
+4. **遗留问题**：与论文 3.22 的差距定位为三个缺口（多任务权衡 / 泛化 gap / 官方超参缺失），
+   详细归因见[复现报告](Week1_LGMFormer/docs/复现报告.md)。
 
-## 8. 仓库结构
+## 与论文的差距（诚实声明）
 
-```
-LGMFormer/
-├── src/
-│   ├── data.py        # 数据读取与增广
-│   ├── models.py      # U-Net/ResNet18 基线 + HLFG + LGFI + SEDH + LGMFormer
-│   ├── losses.py      # MSE / DM-Count（L_C + L_TV + L_OT 近似）/ CE+Dice
-│   ├── metrics.py     # MAE / RMSE
-│   └── utils.py       # 种子、日志、点图反推
-├── train.py           # 训练 + 验证 + 测试（消融开关齐全）
-├── predict.py         # 载入权重评测并可视化密度图
-├── verify_pipeline.py # 端到端验收：数据→权重→评测→可视化 四阶段体检
-├── compare_runs.py    # 汇总 runs/ 全部实验对照表
-├── docs/images/       # 结果截图
-├── 复现报告_LGMFormer.md        # 完整复现报告（12 实验 + 7 条结论）
-├── 全流程验收报告.md             # 四阶段验收实测记录
-├── 实验结果查看指南.md           # 跑完实验后看什么、怎么判断
-└── runs/              # 训练输出（log/metrics/可视化；权重不入库）
-```
+复现 5.458 vs 论文 3.22：① MAE 最优与 mIoU 最优不在同一训练阶段（论文未公布权衡策略）；
+② Transformer 方案 val 3.708 已接近 3.22 但 test 掉到 5.845（过拟合方向）；
+③ 官方仓库为空，关键超参无对照依据。下周计划用 EMA / TTA 压泛化 gap。
 
-> 注：`runs/` 下的模型权重（*.pth，每个 ~57MB）未纳入版本库，仅保留训练日志与指标，可用 README 第 5 节的命令复现。
+---
+
+## 导航
+
+| 内容 | 链接 |
+|---|---|
+| 每周进度记录 | [PROGRESS.md](PROGRESS.md) |
+| 论文阅读笔记 | [papers/](papers/) |
+| Week1 完整报告 | [Week1_LGMFormer/docs/复现报告.md](Week1_LGMFormer/docs/复现报告.md) |
+| 全流程验收报告 | [Week1_LGMFormer/docs/全流程验收报告.md](Week1_LGMFormer/docs/全流程验收报告.md) |
+| 汇报 PPT | [Week1_LGMFormer/docs/presentation/](Week1_LGMFormer/docs/presentation/) |
+
+---
+
+<div align="center">
+<sub>本仓库为课程科研复现工作，非官方实现 · 最近更新 2026-10-16</sub>
+</div>

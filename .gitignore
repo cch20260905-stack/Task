@@ -1,27 +1,27 @@
 # 模型权重（每个 ~57MB，不入库，可用 README 步骤复现）
-runs/**/*.pth
+*.pth
 weights/
 
-# 数据集与大文件（.npy 数据放在 LGMFormer 外的 ARIS 目录）
+# 数据集与大文件（.npy 数据放在仓库外的 ARIS 目录）
 *.npy
 *.h5
 *.zip
 
 # 冒烟/探针/计时等临时实验（非正式结果）
-runs/smoke*/
-runs/probe*/
-runs/mem*/
-runs/timing*/
+**/runs/smoke*/
+**/runs/probe*/
+**/runs/mem*/
+**/runs/timing*/
 
 # Python
 __pycache__/
 *.pyc
 .idea/
 
+# 工具缓存
+**/.slidep/
+**/.cache/
+
 # 系统文件
 Thumbs.db
 .DS_Store
-
-# PPT 工具内部缓存
-复现汇报/.slidep/
-复现汇报/.cache/
