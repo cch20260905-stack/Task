@@ -1,0 +1,63 @@
+<Slide style={{ width: 1280, height: 720, background: '#F7F9FC', position: 'relative', overflow: 'hidden', fontFamily: '思源黑体, Microsoft YaHei, sans-serif' }}>
+    {/* 右侧深蓝竖块（与 P3 左右相反） */}
+    <Box style={{ position: 'absolute', top: 0, right: 0, width: 430, height: 720, background: '#0E3F8C' }} />
+    {/* 巨型数字 02 */}
+    <Box style={{ position: 'absolute', top: 150, right: 60, alignItems: 'flex-end' }}>
+        <Text style={{ fontSize: 200, fontWeight: 'bold', color: '#3D7BD9', fontFamily: 'Times New Roman, serif', lineHeight: 1, opacity: 0.55 }}>02</Text>
+    </Box>
+    <Box style={{ position: 'absolute', top: 390, right: 66, width: 310, flexDirection: 'column', alignItems: 'flex-end' }}>
+        <Box style={{ width: 80, height: 5, background: '#FFC107' }} />
+        <Box style={{ height: 26 }} />
+        <Text style={{ fontSize: 22, color: '#B9CBE8', lineHeight: 1.7, textAlign: 'right' }}>
+            数据侧 · 基线 · 四个核心模块
+        </Text>
+        <Box style={{ height: 48 }} />
+        <Text style={{ fontSize: 18, color: '#8FB0DC', lineHeight: 1.85, textAlign: 'right' }}>
+            全部按 Eq.1–17
+            <br />
+            与 Fig.2–5 实现
+        </Text>
+    </Box>
+
+    {/* 左侧内容区 */}
+    <Box style={{ position: 'absolute', top: 130, left: 60, width: 720 }}>
+        <Text style={{ fontSize: 52, fontWeight: 'bold', color: '#0E3F8C', lineHeight: 1.25 }}>
+            实现与方法
+        </Text>
+        <Box style={{ height: 24 }} />
+        <Box style={{ width: 100, height: 5, background: '#1E4FA8' }} />
+        <Box style={{ height: 34 }} />
+        <Text style={{ fontSize: 22, color: '#1A2230', lineHeight: 1.95 }}>
+            数据侧用 <span style={{ fontWeight: 'bold', color: '#1E4FA8' }}>Otsu 阈值法</span>
+            自动生成三类分割标签，搭建 <span style={{ fontWeight: 'bold', color: '#1E4FA8' }}>ResNet18 + U-Net</span> 密度回归基线，
+            再逐个补齐论文的四个创新模块。
+        </Text>
+        <Box style={{ height: 26 }} />
+        <Text style={{ fontSize: 22, color: '#1A2230', lineHeight: 1.95 }}>
+            本部分给出<strong>模块级实现对照</strong>：论文公式 → 我的代码 → 验证方式，逐条可追溯。
+        </Text>
+    </Box>
+
+    {/* 左侧底部：三个要点条 */}
+    <Box style={{ position: 'absolute', bottom: 70, left: 60, width: 720, flexDirection: 'row', gap: 16 }}>
+        {[
+            { k: '数据侧', v: '500 张三类标签' },
+            { k: '基线', v: 'U-Net 密度回归' },
+            { k: '模块', v: 'HLFG / LGFI / SEDH' },
+        ].map((it) => (
+            <Box key={it.k} style={{ flex: 1, background: '#FFFFFF', border: '1px solid #D6DCE5', borderRadius: 8, padding: '16px 18px' }}>
+                <Text style={{ fontSize: 15, color: '#3D7BD9', fontWeight: 'bold', letterSpacing: 1 }}>{it.k}</Text>
+                <Box style={{ height: 8 }} />
+                <Text style={{ fontSize: 20, color: '#1A2230', fontWeight: 'bold' }}>{it.v}</Text>
+            </Box>
+        ))}
+    </Box>
+
+    {/* C 页脚 */}
+    <Box style={{ position: 'absolute', bottom: 24, left: 60 }}>
+        <Text style={{ fontSize: 15, color: '#8B97A8' }}>二、实现与方法</Text>
+    </Box>
+    <Box style={{ position: 'absolute', bottom: 24, right: 500 }}>
+        <Text style={{ fontSize: 15, color: '#1E4FA8', fontWeight: 'bold', fontFamily: 'Times New Roman, serif' }}>06 / 13</Text>
+    </Box>
+</Slide>

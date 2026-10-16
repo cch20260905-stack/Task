@@ -1,0 +1,54 @@
+<Slide style={{ width: 1280, height: 720, background: '#FFFFFF', position: 'relative', overflow: 'hidden', fontFamily: '思源黑体, Microsoft YaHei, sans-serif' }}>
+    {/* 右侧深蓝侧栏 */}
+    <Box style={{ position: 'absolute', top: 0, right: 0, width: 470, height: 720, background: '#0E3F8C' }} />
+    {/* 侧栏内嵌训练曲线图（低透明） */}
+    <Image src="assets/training_curves.png" style={{ position: 'absolute', top: 120, right: 35, width: 400, height: 250, objectFit: 'cover', borderRadius: 8, opacity: 0.85 }} />
+    <Box style={{ position: 'absolute', top: 400, right: 35, width: 400 }}>
+        <Text style={{ fontSize: 15, color: '#B9CBE8', lineHeight: 1.7 }}>
+            上图：11 次实验的验证集 MAE / RMSE 收敛曲线
+        </Text>
+        <Box style={{ height: 14 }} />
+        <Text style={{ fontSize: 17, color: '#FFFFFF', fontWeight: 'bold', lineHeight: 1.6 }}>
+            论文宣称 MAE 3.22 / mIoU 90.2%
+        </Text>
+        <Text style={{ fontSize: 17, color: '#FFC107', fontWeight: 'bold', lineHeight: 1.6 }}>
+            本次复现最佳 MAE 5.458（↓18.1%）
+        </Text>
+    </Box>
+
+    {/* 左上角编号标识 */}
+    <Box style={{ position: 'absolute', top: 60, left: 60, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+        <Box style={{ width: 6, height: 26, background: '#1E4FA8' }} />
+        <Text style={{ fontSize: 17, color: '#4A5568', letterSpacing: 2 }}>论文复现汇报 · 2026.10</Text>
+    </Box>
+
+    {/* 左侧主标题区 */}
+    <Box style={{ position: 'absolute', top: 175, left: 60, width: 700 }}>
+        <Text style={{ fontSize: 66, fontWeight: 'bold', color: '#0E3F8C', lineHeight: 1.22 }}>
+            LGMFormer 声呐鱼群
+            <br />
+            计数论文复现
+        </Text>
+        <Box style={{ height: 26 }} />
+        <Text style={{ fontSize: 19, color: '#1E4FA8', fontFamily: 'Times New Roman, serif', lineHeight: 1.55 }}>
+            Enhancing Fish Counting in Sonar Images With Multitask
+            <br />
+            Learning and Local-Global Feature Interaction
+        </Text>
+        <Box style={{ height: 30 }} />
+        <Box style={{ width: 90, height: 4, background: '#1E4FA8' }} />
+        <Box style={{ height: 26 }} />
+        <Text style={{ fontSize: 21, color: '#1A2230', lineHeight: 1.75 }}>
+            两天 11 次完整训练实验 ｜ 论文方法全部模块自实现
+            <br />
+            核心方法测试 MAE <span style={{ fontWeight: 'bold', color: '#D9534F' }}>降低 18.1%</span>，与论文宣称收益量级吻合
+        </Text>
+    </Box>
+
+    {/* 页脚信息 */}
+    <Box style={{ position: 'absolute', bottom: 52, left: 60, flexDirection: 'row', gap: 40 }}>
+        <Text style={{ fontSize: 16, color: '#4A5568' }}>汇报人：研究生</Text>
+        <Text style={{ fontSize: 16, color: '#4A5568' }}>数据：ARIS 声呐数据集（500 张）</Text>
+        <Text style={{ fontSize: 16, color: '#4A5568' }}>2026 年 10 月 15 日</Text>
+    </Box>
+</Slide>

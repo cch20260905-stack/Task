@@ -1,0 +1,53 @@
+<Slide style={{ width: 1280, height: 720, background: '#FFFFFF', position: 'relative', overflow: 'hidden', fontFamily: '思源黑体, Microsoft YaHei, sans-serif' }}>
+    {/* 顶部通栏深蓝块（与前两个扉页的侧栏版式区分） */}
+    <Box style={{ position: 'absolute', top: 0, left: 0, width: 1280, height: 200, background: '#0E3F8C' }} />
+    <Box style={{ position: 'absolute', top: 48, left: 60, flexDirection: 'row', alignItems: 'center', gap: 28 }}>
+        <Text style={{ fontSize: 150, fontWeight: 'bold', color: '#3D7BD9', fontFamily: 'Times New Roman, serif', lineHeight: 1, opacity: 0.9 }}>03</Text>
+        <Box style={{ flexDirection: 'column' }}>
+            <Box style={{ width: 80, height: 5, background: '#FFC107' }} />
+            <Box style={{ height: 18 }} />
+            <Text style={{ fontSize: 46, fontWeight: 'bold', color: '#FFFFFF', lineHeight: 1.2 }}>
+                实验与结果
+            </Text>
+            <Box style={{ height: 14 }} />
+            <Text style={{ fontSize: 19, color: '#B9CBE8' }}>
+                11 次 300 轮完整实验 · 覆盖论文全部消融项与两种解码器架构
+            </Text>
+        </Box>
+    </Box>
+
+    {/* 中部内容：三列要点 */}
+    <Box style={{ position: 'absolute', top: 268, left: 60, width: 1160, flexDirection: 'row', gap: 24 }}>
+        {[
+            { k: '实验规模', v: '11 次 × 300 轮', d: '每次均为完整训练，不用短轮次代替' },
+            { k: '消融覆盖', v: '论文全部消融项', d: 'MTL / SEDH / DM-Count 逐项开关' },
+            { k: '架构对比', v: 'U-Net vs Transformer', d: '同一数据、同一协议公平对照' },
+        ].map((it) => (
+            <Box key={it.k} style={{ flex: 1, background: '#F7F9FC', border: '1px solid #D6DCE5', borderTop: '5px solid #1E4FA8', borderRadius: 8, padding: '22px 24px' }}>
+                <Text style={{ fontSize: 16, color: '#3D7BD9', fontWeight: 'bold', letterSpacing: 1 }}>{it.k}</Text>
+                <Box style={{ height: 12 }} />
+                <Text style={{ fontSize: 26, fontWeight: 'bold', color: '#0E3F8C', fontFamily: 'Times New Roman, serif' }}>{it.v}</Text>
+                <Box style={{ height: 10 }} />
+                <Text style={{ fontSize: 16, color: '#4A5568', lineHeight: 1.6 }}>{it.d}</Text>
+            </Box>
+        ))}
+    </Box>
+
+    {/* 底部：一句话预告 */}
+    <Box style={{ position: 'absolute', bottom: 96, left: 60, width: 1160 }}>
+        <Box style={{ background: '#E8EFF8', borderLeft: '6px solid #0E3F8C', borderRadius: 6, padding: '20px 26px' }}>
+            <Text style={{ fontSize: 21, color: '#1A2230', lineHeight: 1.7 }}>
+                核心结论先行：<span style={{ fontWeight: 'bold', color: '#1E4FA8' }}>完整方案（MTL + SEDH + DM-Count）测试 MAE 5.458</span>，较基线 6.666
+                <span style={{ fontWeight: 'bold', color: '#D9534F' }}> 降低 18.1%</span>，与论文宣称的 MTL 收益 18.8% 量级吻合。
+            </Text>
+        </Box>
+    </Box>
+
+    {/* C 页脚 */}
+    <Box style={{ position: 'absolute', bottom: 24, left: 60 }}>
+        <Text style={{ fontSize: 15, color: '#8B97A8' }}>三、实验与结果</Text>
+    </Box>
+    <Box style={{ position: 'absolute', bottom: 24, right: 60 }}>
+        <Text style={{ fontSize: 15, color: '#1E4FA8', fontWeight: 'bold', fontFamily: 'Times New Roman, serif' }}>09 / 13</Text>
+    </Box>
+</Slide>

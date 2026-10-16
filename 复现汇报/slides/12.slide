@@ -1,0 +1,64 @@
+<Slide style={{ width: 1280, height: 720, background: '#FFFFFF', position: 'relative', overflow: 'hidden', fontFamily: '思源黑体, Microsoft YaHei, sans-serif' }}>
+    {/* A 页眉 */}
+    <Box style={{ position: 'absolute', top: 0, left: 0, width: 1280, height: 72, background: '#1E4FA8' }} />
+    <Box style={{ position: 'absolute', top: 22, left: 60 }}>
+        <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#FFFFFF', letterSpacing: 1 }}>距离论文完整数字的三个缺口</Text>
+    </Box>
+    <Box style={{ position: 'absolute', top: 26, right: 60 }}>
+        <Text style={{ fontSize: 16, color: '#B9CBE8' }}>四、差距归因与计划</Text>
+    </Box>
+
+    {/* 左侧 Hero 数字对比 */}
+    <Box style={{ position: 'absolute', top: 116, left: 60, width: 360, height: 500, background: '#0E3F8C', borderRadius: 8, padding: '36px 30px' }}>
+        <Text style={{ fontSize: 17, color: '#B9CBE8', letterSpacing: 1 }}>复现值 vs 论文值（测试 MAE）</Text>
+        <Box style={{ height: 34 }} />
+        <Text style={{ fontSize: 86, fontWeight: 'bold', color: '#FFC107', fontFamily: 'Times New Roman, serif', lineHeight: 1 }}>5.458</Text>
+        <Box style={{ height: 10 }} />
+        <Text style={{ fontSize: 16, color: '#B9CBE8' }}>本次复现</Text>
+        <Box style={{ height: 30 }} />
+        <Box style={{ height: 2, background: '#3D7BD9' }} />
+        <Box style={{ height: 30 }} />
+        <Text style={{ fontSize: 66, fontWeight: 'bold', color: '#FFFFFF', fontFamily: 'Times New Roman, serif', lineHeight: 1 }}>3.22</Text>
+        <Box style={{ height: 10 }} />
+        <Text style={{ fontSize: 16, color: '#B9CBE8' }}>论文宣称（超参未公开）</Text>
+        <Box style={{ height: 36 }} />
+        <Text style={{ fontSize: 15.5, color: '#B9CBE8', lineHeight: 1.7 }}>
+            验证集已做到 3.708，差距主要来自<br />下述三个缺口，而非方法本身。
+        </Text>
+    </Box>
+
+    {/* 右侧三缺口 */}
+    <Box style={{ position: 'absolute', top: 116, left: 460, width: 760, flexDirection: 'column', gap: 24 }}>
+        {[
+            { n: '缺口一', t: '多任务 Pareto 权衡', d: '实验证实：MAE 最优出现在 ep80 附近，mIoU 最优在 ep230 之后，两任务在同一网络中此消彼长。论文未公开其权衡策略（损失权重/训练阶段），需自定并实验。' },
+            { n: '缺口二', t: '泛化 gap（val → test）', d: '完整方案 val MAE 3.708 已接近论文 3.22，但 test 掉到 5.845——属过拟合方向。通用数据增强已实验证伪（MAE 32.18），需换任务兼容的正则手段。' },
+            { n: '缺口三', t: '官方超参缺失', d: '官方仓库为空，decoder 通道数、层数、损失权重、调度细节均无对照依据，系统性偏差不可避免，只能靠消融逼近。' },
+        ].map((it) => (
+            <Box key={it.n} style={{ background: '#F7F9FC', border: '1px solid #D6DCE5', borderRadius: 8, padding: '22px 24px', flexDirection: 'row', gap: 20 }}>
+                <Box style={{ width: 96, flexShrink: 0, paddingTop: 4 }}>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#D9534F' }}>{it.n}</Text>
+                </Box>
+                <Box style={{ flex: 1 }}>
+                    <Text style={{ fontSize: 21, fontWeight: 'bold', color: '#1A2230' }}>{it.t}</Text>
+                    <Box style={{ height: 8 }} />
+                    <Text style={{ fontSize: 15.5, color: '#4A5568', lineHeight: 1.65 }}>{it.d}</Text>
+                </Box>
+            </Box>
+        ))}
+
+        {/* 底部小结 */}
+        <Box style={{ background: '#E8EFF8', borderLeft: '6px solid #0E3F8C', borderRadius: 6, padding: '14px 22px' }}>
+            <Text style={{ fontSize: 17, color: '#1A2230', lineHeight: 1.6 }}>
+                三个缺口都有明确归因和对应实验证据，不是"跑不出来"，而是<span style={{ fontWeight: 'bold', color: '#0E3F8C' }}>定位到了具体障碍</span>。
+            </Text>
+        </Box>
+    </Box>
+
+    {/* C 页脚 */}
+    <Box style={{ position: 'absolute', bottom: 24, left: 60 }}>
+        <Text style={{ fontSize: 15, color: '#8B97A8' }}>论文复现 · 声呐鱼群计数</Text>
+    </Box>
+    <Box style={{ position: 'absolute', bottom: 24, right: 60 }}>
+        <Text style={{ fontSize: 15, color: '#1E4FA8', fontWeight: 'bold', fontFamily: 'Times New Roman, serif' }}>12 / 13</Text>
+    </Box>
+</Slide>

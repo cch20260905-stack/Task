@@ -1,0 +1,87 @@
+<Slide style={{ width: 1280, height: 720, background: '#0E3F8C', position: 'relative', overflow: 'hidden', fontFamily: '思源黑体, Microsoft YaHei, sans-serif' }}>
+    {/* 顶部装饰条 */}
+    <Box style={{ position: 'absolute', top: 0, left: 0, width: 1280, height: 8, background: '#FFC107' }} />
+
+    {/* 左侧 65%：下一步计划 */}
+    <Box style={{ position: 'absolute', top: 84, left: 60, width: 760 }}>
+        <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#FFFFFF', lineHeight: 1.3 }}>
+            下一步计划
+        </Text>
+        <Box style={{ height: 18 }} />
+        <Box style={{ width: 80, height: 5, background: '#FFC107' }} />
+        <Box style={{ height: 34 }} />
+
+        {/* 近期 */}
+        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFC107', letterSpacing: 2 }}>近期（1–2 周）</Text>
+        <Box style={{ height: 14 }} />
+        {[
+            { t: '压缩 val/test 泛化 gap', d: 'EMA 权重平均、测试时增强（TTA）——不改动数据语义的正则手段' },
+            { t: '补充效率指标', d: 'FPS / FLOPs / 参数量，与论文 Table VII 可比' },
+            { t: '绕开多任务权衡', d: '任务预训练 + 联合微调的两阶段方案，先分别收敛再联合' },
+        ].map((it, i) => (
+            <Box key={it.t} style={{ flexDirection: 'row', gap: 16, marginBottom: 14, alignItems: 'flex-start' }}>
+                <Box style={{ width: 30, height: 30, borderRadius: 15, background: '#FFC107', justifyContent: 'center', alignItems: 'center', flexShrink: 0 }}>
+                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#0E3F8C', fontFamily: 'Times New Roman, serif' }}>{i + 1}</Text>
+                </Box>
+                <Box style={{ flex: 1 }}>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' }}>{it.t}</Text>
+                    <Box style={{ height: 5 }} />
+                    <Text style={{ fontSize: 15.5, color: '#B9CBE8', lineHeight: 1.55 }}>{it.d}</Text>
+                </Box>
+            </Box>
+        ))}
+
+        <Box style={{ height: 20 }} />
+        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFC107', letterSpacing: 2 }}>中期（1–2 月）</Text>
+        <Box style={{ height: 14 }} />
+        {[
+            { t: '跟踪官方仓库', d: '一旦放码立即对齐超参，重跑对照' },
+            { t: '跨数据集泛化验证', d: '检验方法在其它声呐数据上的可迁移性' },
+        ].map((it, i) => (
+            <Box key={it.t} style={{ flexDirection: 'row', gap: 16, marginBottom: 14, alignItems: 'flex-start' }}>
+                <Box style={{ width: 30, height: 30, borderRadius: 15, background: '#3D7BD9', justifyContent: 'center', alignItems: 'center', flexShrink: 0 }}>
+                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF', fontFamily: 'Times New Roman, serif' }}>{i + 4}</Text>
+                </Box>
+                <Box style={{ flex: 1 }}>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFFFFF' }}>{it.t}</Text>
+                    <Box style={{ height: 5 }} />
+                    <Text style={{ fontSize: 15.5, color: '#B9CBE8', lineHeight: 1.55 }}>{it.d}</Text>
+                </Box>
+            </Box>
+        ))}
+    </Box>
+
+    {/* 右侧 35%：结束区 */}
+    <Box style={{ position: 'absolute', top: 84, left: 880, width: 340, height: 540, background: 'rgba(255,255,255,0.07)', border: '1px solid #3D7BD9', borderRadius: 8, padding: '32px 28px' }}>
+        <Text style={{ fontSize: 19, color: '#B9CBE8', lineHeight: 1.6 }}>本次复现一句话总结</Text>
+        <Box style={{ height: 20 }} />
+        <Text style={{ fontSize: 26, fontWeight: 'bold', color: '#FFFFFF', lineHeight: 1.6 }}>
+            方法全部自实现，
+            <br />
+            核心命题复现成立：
+        </Text>
+        <Box style={{ height: 18 }} />
+        <Text style={{ fontSize: 40, fontWeight: 'bold', color: '#FFC107', fontFamily: 'Times New Roman, serif', lineHeight: 1.2 }}>
+            MAE ↓18.1%
+        </Text>
+        <Box style={{ height: 26 }} />
+        <Box style={{ height: 2, background: '#3D7BD9' }} />
+        <Box style={{ height: 22 }} />
+        <Text style={{ fontSize: 17, color: '#B9CBE8', lineHeight: 1.75 }}>
+            差距有明确归因，
+            <br />
+            计划有具体路径。
+            <br />
+            <br />
+            恳请老师批评指正。
+        </Text>
+    </Box>
+
+    {/* C 页脚 */}
+    <Box style={{ position: 'absolute', bottom: 24, left: 60 }}>
+        <Text style={{ fontSize: 15, color: '#8FB0DC' }}>论文复现 · 声呐鱼群计数</Text>
+    </Box>
+    <Box style={{ position: 'absolute', bottom: 24, right: 60 }}>
+        <Text style={{ fontSize: 15, color: '#FFC107', fontWeight: 'bold', fontFamily: 'Times New Roman, serif' }}>13 / 13</Text>
+    </Box>
+</Slide>

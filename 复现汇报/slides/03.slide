@@ -1,0 +1,68 @@
+<Slide style={{ width: 1280, height: 720, background: '#FFFFFF', position: 'relative', overflow: 'hidden', fontFamily: '思源黑体, Microsoft YaHei, sans-serif' }}>
+    {/* 左侧深蓝竖块 */}
+    <Box style={{ position: 'absolute', top: 0, left: 0, width: 430, height: 720, background: '#0E3F8C' }} />
+    {/* 巨型数字 01 */}
+    <Box style={{ position: 'absolute', top: 150, left: 60 }}>
+        <Text style={{ fontSize: 200, fontWeight: 'bold', color: '#3D7BD9', fontFamily: 'Times New Roman, serif', lineHeight: 1, opacity: 0.55 }}>01</Text>
+    </Box>
+    <Box style={{ position: 'absolute', top: 390, left: 66, width: 310, flexDirection: 'column' }}>
+        <Box style={{ width: 80, height: 5, background: '#FFC107' }} />
+        <Box style={{ height: 26 }} />
+        <Text style={{ fontSize: 22, color: '#B9CBE8', lineHeight: 1.7 }}>
+            论文方法 · 创新点 · 复现条件
+        </Text>
+        <Box style={{ height: 48 }} />
+        <Text style={{ fontSize: 18, color: '#8FB0DC', lineHeight: 1.85 }}>
+            ResNet18 编码器
+            <br />
+            + Transformer 解码器
+            <br />
+            + MTL 分割辅助
+        </Text>
+    </Box>
+
+    {/* 右侧内容区 */}
+    <Box style={{ position: 'absolute', top: 130, left: 500, width: 720 }}>
+        <Text style={{ fontSize: 52, fontWeight: 'bold', color: '#0E3F8C', lineHeight: 1.25 }}>
+            背景与目标
+        </Text>
+        <Box style={{ height: 24 }} />
+        <Box style={{ width: 100, height: 5, background: '#1E4FA8' }} />
+        <Box style={{ height: 34 }} />
+        <Text style={{ fontSize: 22, color: '#1A2230', lineHeight: 1.95 }}>
+            论文提出 <span style={{ fontWeight: 'bold', color: '#1E4FA8' }}>LGMFormer</span>，用
+            <span style={{ fontWeight: 'bold', color: '#1E4FA8' }}>多任务学习</span>（密度回归 + 三类分割）
+            与 <span style={{ fontWeight: 'bold', color: '#1E4FA8' }}>局部-全局特征交互</span>
+            提升声呐鱼群计数精度。
+        </Text>
+        <Box style={{ height: 26 }} />
+        <Text style={{ fontSize: 22, color: '#1A2230', lineHeight: 1.95 }}>
+            论文宣称指标 <span style={{ fontFamily: 'Times New Roman, serif' }}>MAE 3.22</span> /
+            <span style={{ fontFamily: 'Times New Roman, serif' }}> mIoU 90.2%</span>。
+            本部分说明我要复现的<strong>方法主线</strong>与<strong>现实约束</strong>。
+        </Text>
+    </Box>
+
+    {/* 右侧底部：关键要点条 */}
+    <Box style={{ position: 'absolute', bottom: 70, left: 500, width: 720, flexDirection: 'row', gap: 16 }}>
+        {[
+            { k: '核心', v: '用分割辅助计数' },
+            { k: '结构', v: '局部-全局交互' },
+            { k: '目标', v: 'MAE 3.22 复现' },
+        ].map((it) => (
+            <Box key={it.k} style={{ flex: 1, background: '#F0F5FC', border: '1px solid #D6DCE5', borderRadius: 8, padding: '16px 18px' }}>
+                <Text style={{ fontSize: 15, color: '#3D7BD9', fontWeight: 'bold', letterSpacing: 1 }}>{it.k}</Text>
+                <Box style={{ height: 8 }} />
+                <Text style={{ fontSize: 20, color: '#1A2230', fontWeight: 'bold' }}>{it.v}</Text>
+            </Box>
+        ))}
+    </Box>
+
+    {/* C 页脚 */}
+    <Box style={{ position: 'absolute', bottom: 24, left: 500 }}>
+        <Text style={{ fontSize: 15, color: '#8B97A8' }}>一、背景与目标</Text>
+    </Box>
+    <Box style={{ position: 'absolute', bottom: 24, right: 60 }}>
+        <Text style={{ fontSize: 15, color: '#1E4FA8', fontWeight: 'bold', fontFamily: 'Times New Roman, serif' }}>03 / 13</Text>
+    </Box>
+</Slide>

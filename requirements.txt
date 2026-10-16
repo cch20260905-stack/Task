@@ -1,0 +1,8 @@
+# LGMFormer 复现项目依赖
+# 环境：Anaconda env `pytorch`（D:\software\Anaconda\env\pytorch），Python 3.9
+# 注意：torch 必须与 CUDA 匹配，本机为 RTX 3050 Laptop
+torch==1.13.1+cu116
+torchvision==0.14.1+cu116
+numpy<2              # 重要：不要升到 numpy 2.x（与 torch 1.13 不兼容）
+opencv-python        # Otsu 阈值分割标签生成（ARIS/generate_seg_labels.py）
+pymupdf              # 论文图表渲染/文本提取（可选，仅分析用）

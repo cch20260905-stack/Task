@@ -1,0 +1,74 @@
+<Slide style={{ width: 1280, height: 720, background: '#F7F9FC', position: 'relative', overflow: 'hidden', fontFamily: '思源黑体, Microsoft YaHei, sans-serif' }}>
+    {/* A 页眉 */}
+    <Box style={{ position: 'absolute', top: 0, left: 0, width: 1280, height: 72, background: '#1E4FA8' }} />
+    <Box style={{ position: 'absolute', top: 22, left: 60 }}>
+        <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#FFFFFF', letterSpacing: 1 }}>Otsu 自动生成三类分割标签</Text>
+    </Box>
+    <Box style={{ position: 'absolute', top: 26, right: 60 }}>
+        <Text style={{ fontSize: 16, color: '#B9CBE8' }}>数据侧工作 · 按 Fig.5 五步流程</Text>
+    </Box>
+
+    {/* 左侧竖版大图（匹配原图 786×964 纵向比例） */}
+    <Box style={{ position: 'absolute', top: 100, left: 60, width: 420, height: 530, background: '#FFFFFF', border: '1px solid #D6DCE5', borderRadius: 8, padding: 12 }}>
+        <Text style={{ fontSize: 15, color: '#4A5568', fontWeight: 'bold' }}>生成结果自检（6 样本 × 5 步骤）</Text>
+        <Box style={{ height: 10 }} />
+        <Image src="assets/seg_check.png" style={{ width: 396, height: 440, objectFit: 'contain' }} />
+        <Box style={{ height: 8 }} />
+        <Text style={{ fontSize: 13.5, color: '#8B97A8' }}>
+            Input → L_mask → D_mask → S_mask(raw) → S_mask(final)
+        </Text>
+    </Box>
+
+    {/* 右侧文字（宽栏） */}
+    <Box style={{ position: 'absolute', top: 100, left: 510, width: 710 }}>
+        <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#0E3F8C', lineHeight: 1.35 }}>
+            Fig.5 五步流程，全程无人工干预
+        </Text>
+        <Box style={{ height: 16 }} />
+        <Box style={{ width: 70, height: 4, background: '#1E4FA8' }} />
+        <Box style={{ height: 20 }} />
+
+        {/* 步骤两列 */}
+        <Box style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
+            {[
+                '灰度化 → Otsu 自动阈值分割',
+                '密度图掩码筛选（θ_dm = 0.001）',
+                '按位置挑出候选鱼区与噪声区',
+                '形态学后处理去噪、填洞',
+                '输出 500 张三类标签',
+            ].map((t, i) => (
+                <Box key={t} style={{ width: 348, flexDirection: 'row', gap: 12, alignItems: 'flex-start', background: '#FFFFFF', border: '1px solid #D6DCE5', borderRadius: 6, padding: '12px 14px' }}>
+                    <Box style={{ width: 26, height: 26, background: '#1E4FA8', borderRadius: 13, justifyContent: 'center', alignItems: 'center', flexShrink: 0 }}>
+                        <Text style={{ fontSize: 14, color: '#FFFFFF', fontWeight: 'bold', fontFamily: 'Times New Roman, serif' }}>{i + 1}</Text>
+                    </Box>
+                    <Text style={{ fontSize: 16, color: '#1A2230', lineHeight: 1.5, paddingTop: 2 }}>{t}</Text>
+                </Box>
+            ))}
+        </Box>
+
+        <Box style={{ height: 18 }} />
+
+        {/* 底部洞察条（横向大卡） */}
+        <Box style={{ background: '#0E3F8C', borderRadius: 8, padding: '20px 24px', flexDirection: 'row', alignItems: 'center', gap: 24 }}>
+            <Box style={{ alignItems: 'center', flexShrink: 0 }}>
+                <Text style={{ fontSize: 52, fontWeight: 'bold', color: '#FFC107', fontFamily: 'Times New Roman, serif', lineHeight: 1 }}>99.4%</Text>
+                <Box style={{ height: 6 }} />
+                <Text style={{ fontSize: 14, color: '#B9CBE8' }}>阈值一致率</Text>
+            </Box>
+            <Box style={{ flex: 1, borderLeft: '1px solid #3D7BD9', paddingLeft: 24 }}>
+                <Text style={{ fontSize: 17, color: '#FFFFFF', lineHeight: 1.7 }}>
+                    密度图 Otsu 等效阈值与论文固定值 0.001 的逐帧一致率 99.4%
+                    ——标签生成与论文设定高度一致，<span style={{ fontWeight: 'bold' }}>标签可靠</span>。
+                </Text>
+            </Box>
+        </Box>
+    </Box>
+
+    {/* C 页脚 */}
+    <Box style={{ position: 'absolute', bottom: 24, left: 60 }}>
+        <Text style={{ fontSize: 15, color: '#8B97A8' }}>论文复现 · 声呐鱼群计数</Text>
+    </Box>
+    <Box style={{ position: 'absolute', bottom: 24, right: 60 }}>
+        <Text style={{ fontSize: 15, color: '#1E4FA8', fontWeight: 'bold', fontFamily: 'Times New Roman, serif' }}>08 / 13</Text>
+    </Box>
+</Slide>

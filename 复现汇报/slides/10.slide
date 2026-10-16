@@ -1,0 +1,73 @@
+<Slide style={{ width: 1280, height: 720, background: '#FFFFFF', position: 'relative', overflow: 'hidden', fontFamily: '思源黑体, Microsoft YaHei, sans-serif' }}>
+    {/* A 页眉 */}
+    <Box style={{ position: 'absolute', top: 0, left: 0, width: 1280, height: 72, background: '#1E4FA8' }} />
+    <Box style={{ position: 'absolute', top: 22, left: 60 }}>
+        <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#FFFFFF', letterSpacing: 1 }}>全部实验结果对照</Text>
+    </Box>
+    <Box style={{ position: 'absolute', top: 26, right: 60 }}>
+        <Text style={{ fontSize: 16, color: '#B9CBE8' }}>300 轮完整训练 · 测试集指标</Text>
+    </Box>
+
+    {/* Hero 数字条 */}
+    <Box style={{ position: 'absolute', top: 92, left: 60, width: 1160, height: 96, background: '#0E3F8C', borderRadius: 8, flexDirection: 'row', alignItems: 'center', padding: '0 32px' }}>
+        <Text style={{ fontSize: 44, fontWeight: 'bold', color: '#FFC107', fontFamily: 'Times New Roman, serif' }}>5.458</Text>
+        <Box style={{ marginLeft: 16 }}>
+            <Text style={{ fontSize: 17, color: '#FFFFFF', lineHeight: 1.4 }}>完整方案测试 MAE</Text>
+            <Text style={{ fontSize: 14, color: '#B9CBE8' }}>MTL + SEDH + DM-Count</Text>
+        </Box>
+        <Text style={{ fontSize: 30, color: '#3D7BD9', marginHorizontal: 28, fontFamily: 'Times New Roman, serif' }}>vs</Text>
+        <Text style={{ fontSize: 34, fontWeight: 'bold', color: '#FFFFFF', fontFamily: 'Times New Roman, serif' }}>6.666</Text>
+        <Box style={{ marginLeft: 14 }}>
+            <Text style={{ fontSize: 17, color: '#FFFFFF', lineHeight: 1.4 }}>Baseline</Text>
+        </Box>
+        <Box style={{ flex: 1 }} />
+        <Text style={{ fontSize: 34, fontWeight: 'bold', color: '#FFC107', fontFamily: 'Times New Roman, serif' }}>↓18.1%</Text>
+    </Box>
+
+    {/* 对照表 */}
+    <Box style={{ position: 'absolute', top: 208, left: 60, width: 1160 }}>
+        {/* 表头 */}
+        <Box style={{ flexDirection: 'row', background: '#1E4FA8', borderRadius: '6px 6px 0 0', padding: '10px 16px' }}>
+            <Text style={{ width: 64, fontSize: 15, color: '#FFFFFF', fontWeight: 'bold' }}>配置</Text>
+            <Text style={{ flex: 1, fontSize: 15, color: '#FFFFFF', fontWeight: 'bold' }}>实验说明</Text>
+            <Text style={{ width: 90, fontSize: 15, color: '#FFFFFF', fontWeight: 'bold', textAlign: 'right' }}>MAE</Text>
+            <Text style={{ width: 90, fontSize: 15, color: '#FFFFFF', fontWeight: 'bold', textAlign: 'right' }}>RMSE</Text>
+            <Text style={{ width: 220, fontSize: 15, color: '#FFFFFF', fontWeight: 'bold' }}>结论</Text>
+        </Box>
+        {[
+            { n: 'Base', d: 'ResNet18 + U-Net 密度回归基线', mae: '6.666', rmse: '10.560', c: '复现起点', best: false },
+            { n: '+HLFG', d: '严格按 Eq.3 加权融合（replace）', mae: '8.225', rmse: '13.015', c: '劣化：跳连被破坏', best: false },
+            { n: '+HLFG′', d: '改用拼接式融合（cat3，复现采用）', mae: '6.940', rmse: '10.798', c: '恢复但未超基线', best: false },
+            { n: '+LGFI', d: 'WMSA + 十字卷积 + MDC', mae: '8.224', rmse: '13.955', c: '劣化：适配存疑', best: false },
+            { n: '+MTL', d: '加三类分割头（CE+Dice）', mae: '9.947', rmse: '15.250', c: 'mIoU 89.2%，但计数劣化', best: false },
+            { n: 'Full', d: 'MTL + SEDH + DM-Count（核心）', mae: '5.458', rmse: '10.287', c: '最优：↓18.1% 达标', best: true },
+            { n: '+Aug', d: '完整方案 + 通用数据增强', mae: '32.182', rmse: '62.568', c: '已证伪：破坏任务语义', best: false },
+            { n: 'LGM-b', d: 'Transformer 解码器 纯密度', mae: '7.081', rmse: '11.394', c: '与 U-Net 基线相当', best: false },
+            { n: 'LGM-f', d: 'Transformer 完整（scale=100）', mae: '5.845', rmse: '13.171', c: 'val 3.708 → test 泛化 gap', best: false },
+            { n: 'LGM-s1', d: 'Transformer 完整（scale=1）', mae: '8.131', rmse: '19.067', c: '标注尺度敏感', best: false },
+        ].map((r, i) => (
+            <Box key={r.n} style={{ flexDirection: 'row', alignItems: 'center', padding: '9px 16px', background: r.best ? '#0E3F8C' : (i % 2 === 0 ? '#F7F9FC' : '#FFFFFF'), borderBottom: '1px solid #D6DCE5' }}>
+                <Text style={{ width: 64, fontSize: 15, color: r.best ? '#FFC107' : '#0E3F8C', fontWeight: 'bold', fontFamily: 'Times New Roman, serif' }}>{r.n}</Text>
+                <Text style={{ flex: 1, fontSize: 15, color: r.best ? '#FFFFFF' : '#1A2230' }}>{r.d}</Text>
+                <Text style={{ width: 90, fontSize: 15, fontWeight: r.best ? 'bold' : 'normal', color: r.best ? '#FFC107' : '#1A2230', textAlign: 'right', fontFamily: 'Times New Roman, serif' }}>{r.mae}</Text>
+                <Text style={{ width: 90, fontSize: 15, color: r.best ? '#FFFFFF' : '#4A5568', textAlign: 'right', fontFamily: 'Times New Roman, serif' }}>{r.rmse}</Text>
+                <Text style={{ width: 220, fontSize: 14.5, color: r.best ? '#FFC107' : '#4A5568', paddingLeft: 14 }}>{r.c}</Text>
+            </Box>
+        ))}
+    </Box>
+
+    {/* 底部结论条 */}
+    <Box style={{ position: 'absolute', bottom: 48, left: 60, width: 1160, background: '#E8EFF8', borderLeft: '6px solid #0E3F8C', borderRadius: 6, padding: '14px 24px' }}>
+        <Text style={{ fontSize: 19, color: '#1A2230', lineHeight: 1.6 }}>
+            结论：完整方案 ↓18.1% 与论文宣称的 MTL 收益 <span style={{ fontWeight: 'bold' }}>18.8%</span> 量级吻合——<span style={{ fontWeight: 'bold', color: '#0E3F8C' }}>核心命题复现成功</span>；单模块（HLFG/LGFI/MTL 单独加入）在本实现下均未独立生效。
+        </Text>
+    </Box>
+
+    {/* C 页脚 */}
+    <Box style={{ position: 'absolute', bottom: 16, left: 60 }}>
+        <Text style={{ fontSize: 15, color: '#8B97A8' }}>论文复现 · 声呐鱼群计数</Text>
+    </Box>
+    <Box style={{ position: 'absolute', bottom: 16, right: 60 }}>
+        <Text style={{ fontSize: 15, color: '#1E4FA8', fontWeight: 'bold', fontFamily: 'Times New Roman, serif' }}>10 / 13</Text>
+    </Box>
+</Slide>

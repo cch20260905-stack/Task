@@ -1,0 +1,81 @@
+<Slide style={{ width: 1280, height: 720, background: '#F7F9FC', position: 'relative', overflow: 'hidden', fontFamily: '思源黑体, Microsoft YaHei, sans-serif' }}>
+    {/* A 页眉 */}
+    <Box style={{ position: 'absolute', top: 0, left: 0, width: 1280, height: 72, background: '#1E4FA8' }} />
+    <Box style={{ position: 'absolute', top: 22, left: 60 }}>
+        <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#FFFFFF', letterSpacing: 1 }}>复现条件与现实约束</Text>
+    </Box>
+    <Box style={{ position: 'absolute', top: 26, right: 60 }}>
+        <Text style={{ fontSize: 16, color: '#B9CBE8' }}>为什么必须自实现</Text>
+    </Box>
+
+    {/* 左标题栏 */}
+    <Box style={{ position: 'absolute', top: 130, left: 60, width: 340 }}>
+        <Text style={{ fontSize: 34, fontWeight: 'bold', color: '#0E3F8C', lineHeight: 1.32 }}>
+            两个硬约束
+            <br />
+            决定复现路线
+        </Text>
+        <Box style={{ height: 20 }} />
+        <Box style={{ width: 70, height: 4, background: '#1E4FA8' }} />
+        <Box style={{ height: 24 }} />
+        <Text style={{ fontSize: 18, color: '#4A5568', lineHeight: 1.85 }}>
+            不是"跑不出来"，
+            <br />
+            而是官方未公开任何
+            <br />
+            可对照的实现细节。
+        </Text>
+        <Box style={{ height: 28 }} />
+        <Box style={{ padding: 18, background: '#E8EFF8', borderRadius: 8, borderLeft: '5px solid #1E4FA8' }}>
+            <Text style={{ fontSize: 17, color: '#0E3F8C', lineHeight: 1.75 }}>
+                复现策略：<br />
+                以论文公式与图为唯一依据，
+                <br />
+                逐条自实现 + 实验验证。
+            </Text>
+        </Box>
+    </Box>
+
+    {/* 右侧约束列表 */}
+    <Box style={{ position: 'absolute', top: 122, left: 460, width: 760, flexDirection: 'column', gap: 22 }}>
+        <Box style={{ background: '#FFFFFF', border: '1px solid #D6DCE5', borderTop: '5px solid #D9534F', borderRadius: 8, padding: '22px 26px' }}>
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#D9534F' }}>约束一</Text>
+                <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#1A2230' }}>官方代码仓库为空</Text>
+            </Box>
+            <Box style={{ height: 12 }} />
+            <Text style={{ fontSize: 18, color: '#4A5568', lineHeight: 1.75 }}>
+                GitHub（camerayuhang/LGMFormer）仅有初始化提交，README 标注 "code will be released soon"。
+                → 无法对齐官方实现，全部模块需从论文公式推导重写。
+            </Text>
+        </Box>
+
+        <Box style={{ background: '#FFFFFF', border: '1px solid #D6DCE5', borderTop: '5px solid #D9534F', borderRadius: 8, padding: '22px 26px' }}>
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#D9534F' }}>约束二</Text>
+                <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#1A2230' }}>论文关键超参未公布</Text>
+            </Box>
+            <Box style={{ height: 12 }} />
+            <Text style={{ fontSize: 18, color: '#4A5568', lineHeight: 1.75 }}>
+                Transformer 解码器通道数、堆叠层数、损失权重、学习率调度等在正文中未给出。
+                → 需自行设定候选并靠消融实验验证，这直接导致与论文数字存在系统性偏差。
+            </Text>
+        </Box>
+
+        <Box style={{ background: '#0E3F8C', borderRadius: 8, padding: '20px 26px' }}>
+            <Text style={{ fontSize: 18, color: '#FFFFFF', lineHeight: 1.75 }}>
+                <span style={{ fontWeight: 'bold', color: '#FFC107' }}>诚实声明：</span>
+                因此本次复现的定位是"<span style={{ fontWeight: 'bold' }}>方法级复现</span>"——验证论文核心命题是否成立，
+                而非对齐官方逐位数值。
+            </Text>
+        </Box>
+    </Box>
+
+    {/* C 页脚 */}
+    <Box style={{ position: 'absolute', bottom: 24, left: 60 }}>
+        <Text style={{ fontSize: 15, color: '#8B97A8' }}>论文复现 · 声呐鱼群计数</Text>
+    </Box>
+    <Box style={{ position: 'absolute', bottom: 24, right: 60 }}>
+        <Text style={{ fontSize: 15, color: '#1E4FA8', fontWeight: 'bold', fontFamily: 'Times New Roman, serif' }}>05 / 13</Text>
+    </Box>
+</Slide>

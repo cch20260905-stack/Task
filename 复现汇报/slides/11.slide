@@ -1,0 +1,38 @@
+<Slide style={{ width: 1280, height: 720, background: '#F7F9FC', position: 'relative', overflow: 'hidden', fontFamily: '思源黑体, Microsoft YaHei, sans-serif' }}>
+    {/* A 页眉 */}
+    <Box style={{ position: 'absolute', top: 0, left: 0, width: 1280, height: 72, background: '#1E4FA8' }} />
+    <Box style={{ position: 'absolute', top: 22, left: 60 }}>
+        <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#FFFFFF', letterSpacing: 1 }}>收敛过程对比</Text>
+    </Box>
+    <Box style={{ position: 'absolute', top: 26, right: 60 }}>
+        <Text style={{ fontSize: 16, color: '#B9CBE8' }}>验证集 MAE / RMSE 曲线</Text>
+    </Box>
+
+    {/* 顶部大图（宽幅 1690×624，通栏放置） */}
+    <Box style={{ position: 'absolute', top: 96, left: 60, width: 1160, height: 400, background: '#FFFFFF', border: '1px solid #D6DCE5', borderRadius: 8, padding: 12 }}>
+        <Image src="assets/training_curves.png" style={{ width: 1136, height: 376, objectFit: 'contain' }} />
+    </Box>
+
+    {/* 底部三条洞察 */}
+    <Box style={{ position: 'absolute', top: 522, left: 60, width: 1160, flexDirection: 'row', gap: 20 }}>
+        {[
+            { t: '完整方案全程最低', d: '红线在 MAE 与 RMSE 两图全程最低——优势来自整条收敛轨迹，而非单点波动。' },
+            { t: '曲线分离明显', d: '与基线的差距从训练早期即拉开并保持，说明 SEDH 精修稳定生效，不依赖后期微调。' },
+            { t: '单模块曲线更高', d: 'LGFI 与 HLFG-replace 曲线明显高于基线，佐证其在当前实现适配下未生效。' },
+        ].map((it) => (
+            <Box key={it.t} style={{ flex: 1, height: 168, background: '#FFFFFF', border: '1px solid #D6DCE5', borderTop: '5px solid #1E4FA8', borderRadius: 8, padding: '16px 20px' }}>
+                <Text style={{ fontSize: 19, fontWeight: 'bold', color: '#0E3F8C' }}>{it.t}</Text>
+                <Box style={{ height: 10 }} />
+                <Text style={{ fontSize: 15.5, color: '#4A5568', lineHeight: 1.65 }}>{it.d}</Text>
+            </Box>
+        ))}
+    </Box>
+
+    {/* C 页脚 */}
+    <Box style={{ position: 'absolute', bottom: 24, left: 60 }}>
+        <Text style={{ fontSize: 15, color: '#8B97A8' }}>论文复现 · 声呐鱼群计数</Text>
+    </Box>
+    <Box style={{ position: 'absolute', bottom: 24, right: 60 }}>
+        <Text style={{ fontSize: 15, color: '#1E4FA8', fontWeight: 'bold', fontFamily: 'Times New Roman, serif' }}>11 / 13</Text>
+    </Box>
+</Slide>

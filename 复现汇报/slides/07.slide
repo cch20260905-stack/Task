@@ -1,0 +1,82 @@
+<Slide style={{ width: 1280, height: 720, background: '#FFFFFF', position: 'relative', overflow: 'hidden', fontFamily: '思源黑体, Microsoft YaHei, sans-serif' }}>
+    {/* A 页眉 */}
+    <Box style={{ position: 'absolute', top: 0, left: 0, width: 1280, height: 72, background: '#1E4FA8' }} />
+    <Box style={{ position: 'absolute', top: 22, left: 60 }}>
+        <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#FFFFFF', letterSpacing: 1 }}>四个核心模块的实现对照</Text>
+    </Box>
+    <Box style={{ position: 'absolute', top: 26, right: 60 }}>
+        <Text style={{ fontSize: 16, color: '#B9CBE8' }}>论文公式 → 代码 → 验证</Text>
+    </Box>
+
+    {/* 左栏 60%：四个模块卡 */}
+    <Box style={{ position: 'absolute', top: 108, left: 60, width: 700, flexDirection: 'column', gap: 16 }}>
+        {[
+            { n: 'HLFG', eq: 'Eq.1–3', d: '高层特征 GAP → 通道注意力（压缩再扩张 ÷4）→ softmax 生成 α/β/γ 加权低层特征。', tag: '引导融合' },
+            { n: 'LGFI', eq: 'Eq.4–6', d: '窗内多头自注意力（WMSA, win=8, head=4）+ 十字形卷积 + 多尺度空洞卷积 MDC。', tag: '局部-全局交互' },
+            { n: 'SEDH', eq: 'Eq.9–11', d: '用分割概率图 Pf / Pn 增强鱼区、抑制噪声，再精修密度图。', tag: '密度精修' },
+            { n: 'MTL', eq: 'CE+Dice', d: '三类分割头辅助监督骨干，与密度回归共享编码器。', tag: '多任务学习' },
+        ].map((it) => (
+            <Box key={it.n} style={{ background: '#F7F9FC', border: '1px solid #D6DCE5', borderLeft: '5px solid #1E4FA8', borderRadius: 6, padding: '14px 20px', flexDirection: 'row', gap: 16 }}>
+                <Box style={{ width: 150 }}>
+                    <Text style={{ fontSize: 21, fontWeight: 'bold', color: '#0E3F8C', fontFamily: 'Times New Roman, serif' }}>{it.n}</Text>
+                    <Box style={{ height: 4 }} />
+                    <Text style={{ fontSize: 14, color: '#3D7BD9', fontFamily: 'Times New Roman, serif' }}>{it.eq}</Text>
+                </Box>
+                <Box style={{ flex: 1 }}>
+                    <Text style={{ fontSize: 16.5, color: '#4A5568', lineHeight: 1.6 }}>{it.d}</Text>
+                </Box>
+            </Box>
+        ))}
+    </Box>
+
+    {/* 右栏 40%：关键发现 */}
+    <Box style={{ position: 'absolute', top: 108, left: 790, width: 430 }}>
+        <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#0E3F8C', lineHeight: 1.35 }}>
+            实现中定位到的<br />两个系统性问题
+        </Text>
+        <Box style={{ height: 18 }} />
+        <Box style={{ width: 70, height: 4, background: '#1E4FA8' }} />
+        <Box style={{ height: 24 }} />
+
+        <Box style={{ background: '#FFFFFF', border: '1px solid #D9534F', borderRadius: 8, padding: '18px 20px' }}>
+            <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#D9534F' }}>问题一</Text>
+            <Box style={{ height: 10 }} />
+            <Text style={{ fontSize: 17, color: '#1A2230', fontWeight: 'bold', lineHeight: 1.5 }}>
+                HLFG Eq.3 直接融合会破坏跳连
+            </Text>
+            <Box style={{ height: 8 }} />
+            <Text style={{ fontSize: 15.5, color: '#4A5568', lineHeight: 1.6 }}>
+                按原文 α/β/γ 加权后，低层细节被过度抑制，U-Net 跳连失效。改用拼接式融合（cat3）后恢复。
+            </Text>
+        </Box>
+
+        <Box style={{ height: 14 }} />
+
+        <Box style={{ background: '#FFFFFF', border: '1px solid #D9534F', borderRadius: 8, padding: '18px 20px' }}>
+            <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#D9534F' }}>问题二</Text>
+            <Box style={{ height: 10 }} />
+            <Text style={{ fontSize: 17, color: '#1A2230', fontWeight: 'bold', lineHeight: 1.5 }}>
+                SEDH 类别索引与数据约定相反
+            </Text>
+            <Box style={{ height: 8 }} />
+            <Text style={{ fontSize: 15.5, color: '#4A5568', lineHeight: 1.6 }}>
+                原实现取 prob[:,0:1]/[:,1:2] 对应背景/鱼，与标签约定（0=背景,1=鱼,2=噪声）颠倒，会灾难性反转精修方向。已修正为 [:,1:2]/[:,2:3]。
+            </Text>
+        </Box>
+
+        <Box style={{ height: 18 }} />
+        <Box style={{ background: '#0E3F8C', borderRadius: 8, padding: '16px 20px' }}>
+            <Text style={{ fontSize: 15, color: '#FFFFFF', lineHeight: 1.55 }}>
+                这两个问题不修，实验数字会完全失真——是复现过程中最关键的两处排障。
+            </Text>
+        </Box>
+    </Box>
+
+    {/* C 页脚 */}
+    <Box style={{ position: 'absolute', bottom: 24, left: 60 }}>
+        <Text style={{ fontSize: 15, color: '#8B97A8' }}>论文复现 · 声呐鱼群计数</Text>
+    </Box>
+    <Box style={{ position: 'absolute', bottom: 24, right: 60 }}>
+        <Text style={{ fontSize: 15, color: '#1E4FA8', fontWeight: 'bold', fontFamily: 'Times New Roman, serif' }}>07 / 13</Text>
+    </Box>
+</Slide>
